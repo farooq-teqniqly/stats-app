@@ -11,9 +11,25 @@ type TTestResult = {
   t: {
     observed: number;
   };
-  groups: Record<string, { error: number; df: number }>;
+  groups: { error: number; df: number; summary: SampleSummary }[];
   error: number;
   df: number;
+};
+
+const confidenceInterval = (
+  testResult: TTestResult,
+  tCritical: number
+): number[] => {
+  const diff =
+    testResult.groups[0].summary.mean - testResult.groups[1].summary.mean;
+
+  const multiplier = testResult.t.observed * tCritical;
+
+  if (diff < 0) {
+    return [diff + multiplier, diff - multiplier];
+  }
+
+  return [diff - multiplier, diff + multiplier];
 };
 
 const independentSamplesTTest = (
@@ -41,19 +57,26 @@ const independentSamplesTTest = (
     t: {
       observed: tObserved(sampleSummary1.mean, sampleSummary2.mean, te),
     },
-    groups: {
-      [sampleSummary1.name]: {
+    groups: [
+      {
         error: errors[0],
         df: degreesOfFreedom[0],
+        summary: sampleSummary1,
       },
-      [sampleSummary2.name]: {
+      {
         error: errors[1],
         df: degreesOfFreedom[1],
+        summary: sampleSummary2,
       },
-    },
+    ],
     error: te,
     df: totalDegreesOfFreedom,
   };
 };
 
-export { SampleSummary, independentSamplesTTest, TTestResult };
+export {
+  SampleSummary,
+  independentSamplesTTest,
+  TTestResult,
+  confidenceInterval,
+};
