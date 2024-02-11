@@ -20,17 +20,22 @@ const independentSamplesTTest = (
   sampleSummary1: SampleSummary,
   sampleSummary2: SampleSummary
 ): TTestResult => {
-  const df1 = df(sampleSummary1.cardinality);
-  const df2 = df(sampleSummary2.cardinality);
-  const error1 = standardError(
-    sampleSummary1.standardDeviation,
-    sampleSummary1.cardinality
+  const degreesOfFreedom = [
+    df(sampleSummary1.cardinality),
+    df(sampleSummary2.cardinality),
+  ];
+
+  const totalDegreesOfFreedom = degreesOfFreedom.reduce(
+    (sum, df) => sum + df,
+    0
   );
-  const error2 = standardError(
-    sampleSummary2.standardDeviation,
-    sampleSummary2.cardinality
-  );
-  const te = totalError(error1, error2);
+
+  const errors = [
+    standardError(sampleSummary1.standardDeviation, sampleSummary1.cardinality),
+    standardError(sampleSummary2.standardDeviation, sampleSummary2.cardinality),
+  ];
+
+  const te = totalError(...errors);
 
   return {
     t: {
@@ -38,16 +43,16 @@ const independentSamplesTTest = (
     },
     groups: {
       [sampleSummary1.name]: {
-        error: error1,
-        df: df1,
+        error: errors[0],
+        df: degreesOfFreedom[0],
       },
       [sampleSummary2.name]: {
-        error: error2,
-        df: df2,
+        error: errors[1],
+        df: degreesOfFreedom[1],
       },
     },
     error: te,
-    df: df1 + df2,
+    df: totalDegreesOfFreedom,
   };
 };
 
