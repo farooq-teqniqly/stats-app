@@ -1,11 +1,5 @@
 import { df, standardError, tObserved, totalError } from "../common/calculator";
-
-type SampleSummary = {
-  name: string;
-  cardinality: number;
-  mean: number;
-  standardDeviation: number;
-};
+import { SampleSummary } from "../common/types";
 
 type TTestResult = {
   t: {

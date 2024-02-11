@@ -47,11 +47,23 @@ describe("Independent samples t-test", () => {
 describe("confidence interval", () => {
   const testResult = independentSamplesTTest(sampleSummmary1, sampleSummmary2);
 
-  it("calculates the confidence interval", () => {
+  it("calculates the confidence interval when difference is negative", () => {
     const tCritical = 2.021;
     const [lowerBound, upperBound] = confidenceInterval(testResult, tCritical);
 
     expect(lowerBound).toBe(-3.021);
     expect(upperBound).toBe(1.021);
+  });
+
+  it("calculates the confidence interval when difference is positive", () => {
+    const testResult = independentSamplesTTest(
+      sampleSummmary2,
+      sampleSummmary1
+    );
+    const tCritical = 2.021;
+    const [lowerBound, upperBound] = confidenceInterval(testResult, tCritical);
+
+    expect(lowerBound).toBe(-1.021);
+    expect(upperBound).toBe(3.021);
   });
 });
