@@ -21,10 +21,10 @@ const independentSamplesTTest = (
       observed: 1,
     },
     groups: {
-      women: {
+      [sampleSummary1.name]: {
         error: 0.8,
       },
-      men: {
+      [sampleSummary2.name]: {
         error: 0.6,
       },
     },
