@@ -1,4 +1,5 @@
 type SampleSummary = {
+  name: string;
   cardinality: number;
   mean: number;
   standardDeviation: number;
@@ -8,6 +9,7 @@ type TTestResult = {
   t: {
     observed: number;
   };
+  groups: Record<string, { error: number }>;
 };
 
 const independentSamplesTTest = (
@@ -17,6 +19,14 @@ const independentSamplesTTest = (
   return {
     t: {
       observed: 1,
+    },
+    groups: {
+      women: {
+        error: 0.8,
+      },
+      men: {
+        error: 0.6,
+      },
     },
   };
 };
