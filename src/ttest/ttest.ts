@@ -22,8 +22,14 @@ const independentSamplesTTest = (
 ): TTestResult => {
   const df1 = df(sampleSummary1.cardinality);
   const df2 = df(sampleSummary2.cardinality);
-  const error1 = standardError(sampleSummary1);
-  const error2 = standardError(sampleSummary2);
+  const error1 = standardError(
+    sampleSummary1.standardDeviation,
+    sampleSummary1.cardinality
+  );
+  const error2 = standardError(
+    sampleSummary2.standardDeviation,
+    sampleSummary2.cardinality
+  );
   const te = totalError(error1, error2);
 
   return {
