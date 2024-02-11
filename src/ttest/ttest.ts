@@ -1,4 +1,10 @@
-import { df, standardError, tObserved, totalError } from "../common/calculator";
+import {
+  df,
+  standardError,
+  sumOfSquaresFromStandardDeviation,
+  tObserved,
+  totalError,
+} from "../common/calculator";
 import { SampleSummary } from "../common/types";
 
 type TTestResult = {
@@ -32,10 +38,6 @@ const confidenceInterval = (
   return [diff - multiplier, diff + multiplier];
 };
 
-const sumOfSquaresFromSummary = (sampleSummary: SampleSummary): number =>
-  Math.pow(sampleSummary.standardDeviation, 2) *
-  (sampleSummary.cardinality - 1);
-
 const independentSamplesTTest = (
   sampleSummary1: SampleSummary,
   sampleSummary2: SampleSummary
@@ -56,8 +58,14 @@ const independentSamplesTTest = (
   ];
 
   const sumOfSquares = [
-    sumOfSquaresFromSummary(sampleSummary1),
-    sumOfSquaresFromSummary(sampleSummary2),
+    sumOfSquaresFromStandardDeviation(
+      sampleSummary1.standardDeviation,
+      sampleSummary1.cardinality
+    ),
+    sumOfSquaresFromStandardDeviation(
+      sampleSummary2.standardDeviation,
+      sampleSummary2.cardinality
+    ),
   ];
 
   const te = totalError(errors);

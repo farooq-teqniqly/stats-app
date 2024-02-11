@@ -62,4 +62,16 @@ const createSampleSummary = (values: number[], name: string): SampleSummary => {
   };
 };
 
-export { standardError, df, totalError, tObserved, createSampleSummary };
+const sumOfSquaresFromStandardDeviation = (
+  standardDeviation: number,
+  cardinality: number
+): number => Math.pow(standardDeviation, 2) * (cardinality - 1);
+
+export {
+  standardError,
+  df,
+  totalError,
+  tObserved,
+  createSampleSummary,
+  sumOfSquaresFromStandardDeviation,
+};
