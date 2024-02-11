@@ -5,7 +5,7 @@ type TTestResult = {
   t: {
     observed: number;
   };
-  groups: { error: number; df: number; summary: SampleSummary }[];
+  groups: { error: number; df: number; summary: SampleSummary; name: string }[];
   error: number;
   df: number;
 };
@@ -56,11 +56,13 @@ const independentSamplesTTest = (
         error: errors[0],
         df: degreesOfFreedom[0],
         summary: sampleSummary1,
+        name: sampleSummary1.name,
       },
       {
         error: errors[1],
         df: degreesOfFreedom[1],
         summary: sampleSummary2,
+        name: sampleSummary2.name,
       },
     ],
     error: te,

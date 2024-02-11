@@ -42,6 +42,11 @@ describe("Independent samples t-test", () => {
   it("has the total degrees of freedom", () => {
     expect(testResult.df).toBe(48);
   });
+
+  it("has the name", () => {
+    expect(testResult.groups[0].name).toBe(sampleSummmary1.name);
+    expect(testResult.groups[1].name).toBe(sampleSummmary2.name);
+  });
 });
 
 describe("confidence interval", () => {
