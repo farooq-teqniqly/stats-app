@@ -1,6 +1,6 @@
 import { SampleSummary, TTestResult, independentSamplesTTest } from "./ttest";
 
-describe("Independent samples t-test using descriptive statistics", () => {
+describe("Independent samples t-test using summary statistics", () => {
   const sampleSummmary1: SampleSummary = {
     name: "women",
     cardinality: 25,

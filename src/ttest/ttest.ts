@@ -1,3 +1,5 @@
+import { standardError } from "../common/calculator";
+
 type SampleSummary = {
   name: string;
   cardinality: number;
@@ -24,11 +26,11 @@ const independentSamplesTTest = (
     },
     groups: {
       [sampleSummary1.name]: {
-        error: 0.8,
+        error: standardError(sampleSummary1),
         df: 24,
       },
       [sampleSummary2.name]: {
-        error: 0.6,
+        error: standardError(sampleSummary2),
         df: 24,
       },
     },
