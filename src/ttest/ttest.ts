@@ -5,7 +5,13 @@ type TTestResult = {
   t: {
     observed: number;
   };
-  groups: { error: number; df: number; summary: SampleSummary; name: string }[];
+  groups: {
+    error: number;
+    df: number;
+    summary: SampleSummary;
+    name: string;
+    sumOfSquares: number;
+  }[];
   error: number;
   df: number;
 };
@@ -26,6 +32,10 @@ const confidenceInterval = (
   return [diff - multiplier, diff + multiplier];
 };
 
+const sumOfSquaresFromSummary = (sampleSummary: SampleSummary): number =>
+  Math.pow(sampleSummary.standardDeviation, 2) *
+  (sampleSummary.cardinality - 1);
+
 const independentSamplesTTest = (
   sampleSummary1: SampleSummary,
   sampleSummary2: SampleSummary
@@ -45,7 +55,12 @@ const independentSamplesTTest = (
     standardError(sampleSummary2.standardDeviation, sampleSummary2.cardinality),
   ];
 
-  const te = totalError(...errors);
+  const sumOfSquares = [
+    sumOfSquaresFromSummary(sampleSummary1),
+    sumOfSquaresFromSummary(sampleSummary2),
+  ];
+
+  const te = totalError(errors);
 
   return {
     t: {
@@ -57,12 +72,14 @@ const independentSamplesTTest = (
         df: degreesOfFreedom[0],
         summary: sampleSummary1,
         name: sampleSummary1.name,
+        sumOfSquares: sumOfSquares[0],
       },
       {
         error: errors[1],
         df: degreesOfFreedom[1],
         summary: sampleSummary2,
         name: sampleSummary2.name,
+        sumOfSquares: sumOfSquares[1],
       },
     ],
     error: te,

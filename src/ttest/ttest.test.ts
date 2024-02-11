@@ -47,6 +47,11 @@ describe("Independent samples t-test", () => {
     expect(testResult.groups[0].name).toBe(sampleSummmary1.name);
     expect(testResult.groups[1].name).toBe(sampleSummmary2.name);
   });
+
+  it("has the sum of squares", () => {
+    expect(testResult.groups[0].sumOfSquares).toBe(384);
+    expect(testResult.groups[1].sumOfSquares).toBe(216);
+  });
 });
 
 describe("confidence interval", () => {

@@ -11,14 +11,23 @@ const df = (cardinality: number): number => {
   return cardinality - 1;
 };
 
-const totalError = (...errors: number[]): number => {
+const sumOfSquares = (
+  values: number[],
+  valueTransformer?: (value: number) => number
+): number => {
   const power = 2;
-  const sumOfSquaredErrors = errors.reduce(
-    (sum, error) => sum + Math.pow(error, power),
+  return values.reduce(
+    (sum, value) =>
+      sum +
+      (valueTransformer
+        ? Math.pow(valueTransformer(value), power)
+        : Math.pow(value, power)),
     0
   );
-  return Math.sqrt(sumOfSquaredErrors);
 };
+
+const totalError = (errors: number[]): number =>
+  Math.sqrt(sumOfSquares(errors));
 
 const tObserved = (mean1: number, mean2: number, error: number): number => {
   return (mean1 - mean2) / error;
@@ -33,12 +42,7 @@ const standardDeviation = (
   mean: number,
   cardinality: number
 ): number => {
-  const sumOfSquaredDifferences = values.reduce(
-    (sum, value) => sum + Math.pow(value - mean, 2),
-    0
-  );
-
-  return Math.sqrt(sumOfSquaredDifferences / cardinality);
+  return Math.sqrt(sumOfSquares(values, (v: number) => v - mean) / cardinality);
 };
 
 const createSampleSummary = (values: number[], name: string): SampleSummary => {
