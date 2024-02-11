@@ -4,4 +4,8 @@ const standardError = (sampleSummary: SampleSummary): number => {
   return sampleSummary.standardDeviation / Math.sqrt(sampleSummary.cardinality);
 };
 
-export { standardError };
+const df = (sampleSummary: SampleSummary): number => {
+  return sampleSummary.cardinality - 1;
+};
+
+export { standardError, df };

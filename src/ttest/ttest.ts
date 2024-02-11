@@ -1,4 +1,4 @@
-import { standardError } from "../common/calculator";
+import { df, standardError } from "../common/calculator";
 
 type SampleSummary = {
   name: string;
@@ -20,6 +20,9 @@ const independentSamplesTTest = (
   sampleSummary1: SampleSummary,
   sampleSummary2: SampleSummary
 ): TTestResult => {
+  const df1 = df(sampleSummary1);
+  const df2 = df(sampleSummary2);
+
   return {
     t: {
       observed: 1,
@@ -27,15 +30,15 @@ const independentSamplesTTest = (
     groups: {
       [sampleSummary1.name]: {
         error: standardError(sampleSummary1),
-        df: 24,
+        df: df1,
       },
       [sampleSummary2.name]: {
         error: standardError(sampleSummary2),
-        df: 24,
+        df: df2,
       },
     },
     error: 1,
-    df: 48,
+    df: df1 + df2,
   };
 };
 
