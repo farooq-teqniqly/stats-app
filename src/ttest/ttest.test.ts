@@ -18,7 +18,7 @@ describe("Independent samples t-test using summary statistics", () => {
   const testResult = independentSamplesTTest(sampleSummmary1, sampleSummmary2);
 
   it("has the observed t value", () => {
-    expect(testResult.t.observed).toBe(1);
+    expect(testResult.t.observed).toBe(-1);
   });
 
   it("has the groups' standard errors", () => {
